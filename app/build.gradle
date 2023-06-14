@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.squareup.sqldelight'
+apply plugin: 'app.cash.molecule'
+
+android {
+  namespace 'com.tracer'
+  compileSdk 33
+
+  defaultConfig {
+    applicationId "com.tracer"
+    minSdk 24
+    targetSdk 33
+    versionCode 1
+    versionName "1.0"
+
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    coreLibraryDesugaringEnabled true
+
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+  }
+  kotlinOptions {
+    jvmTarget = '11'
+    freeCompilerArgs += ['-Xcontext-receivers', '-opt-in=kotlin.RequiresOptIn']
+  }
+}
+
+dependencies {
+
+  implementation fileTree(dir: 'libs', include: ['*.jar'])
+  implementation deps.kotlin.stdlib.jdk
+  implementation deps.androidx.appCompat
+  implementation deps.androidx.coreKtx
+  implementation deps.androidx.constraintLayout
+  implementation deps.androidx.lifecycleExt
+  implementation deps.androidx.viewModelKtx
+  implementation deps.androidx.fragmentKtx
+  implementation deps.androidx.lifecycleKtx
+  implementation deps.androidx.fragment
+  implementation deps.androidx.recyclerView
+  implementation deps.androidx.splash
+  implementation deps.material
+
+  implementation deps.retrofit.core
+  implementation deps.retrofit.converterMoshi
+  implementation deps.okHttp
+
+  implementation deps.dagger.runtime
+  implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+  kapt deps.dagger.compiler
+
+  implementation deps.dagger.hilt
+  kapt deps.dagger.hiltCompiler
+  kapt deps.dagger.androiXHilCompiler
+
+  kapt project(':moshi_codegen')
+  implementation deps.moshi.parsing
+
+  implementation deps.glide.core
+  kapt deps.glide.processor
+  implementation deps.glide.svg
+
+  implementation deps.fragmentNav
+}
